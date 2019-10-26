@@ -1,0 +1,90 @@
+@import url('https://fonts.googleapis.com/css?family=Source+Serif+Pro&display=swap');
+
+html, body {
+  background-color: lightgray;
+}
+
+html, body, button {
+  font-family: 'Source Serif Pro', serif !important;
+}
+.mdl-navigation__link {
+  cursor: pointer;
+}
+.mdl-grid {
+  max-width: 1024px;
+  margin: auto;
+}
+.mdl-card {
+  min-height: 0;
+  padding-bottom: 5px;
+/*  width: 100%;*/
+}
+.mdl-layout__header-row {
+  padding: 0;
+}
+h3 {
+  font-family: 'Source Serif Pro', serif;
+}
+h4 {
+  margin-top: 0;
+}
+.mdl-card__supporting-text {
+  width: calc(100% - 32px);
+}
+.mdl-card__actions {
+  text-align: right;
+}
+h1, h2, h4, h5, h6, a, span {
+  font-family: 'Source Serif Pro', serif !important;
+}
+.expand-icon-outer {
+  display: table;
+  width: 100%;
+  height: 100%;
+  text-align: center;
+  color: gray;
+  transition: 5s all;
+  transition: 0.2s color;
+  cursor: pointer;
+}
+.expand-icon-outer:hover {
+  color: black;
+}
+.expand-icon-middle {
+  display: table-cell;
+  vertical-align: middle;
+}
+.expand-icon-inner {
+  font-size: 4em;
+}
+.card-full-width {
+  width: 100%;
+  transition: width 0.5s ease-in-out, height 0.5s ease-in-out;
+}
+.hidden {
+  display: none;
+}
+.hiding-1 {
+  opacity: 0;
+  transition: opacity 0.5s ease-in-out;
+}
+.hiding {
+  height: 0 !important;
+  display: block;
+  transition: width 0.5s ease-in-out, height 0.5s ease-in-out;
+}
+.mdl-card__title {
+  padding-bottom: 0;
+}
+
+textarea {
+  width: 100%;
+  display: block;
+  outline: none;
+  font-family: 'Source Serif Pro', serif;
+  font-size: 1.2em;
+  border: 1px solid black;
+  resize: none;
+  height: 50vh;
+  border-radius: 2px;
+}
