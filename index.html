@@ -3,39 +3,41 @@
 <head>
   <meta charset="utf-8">
   <title>my.daybook.space</title>
+  <link rel="stylesheet" href="https://cdn.daybook.space/fonts/css/fontello.css">
   <link rel="stylesheet" href="css/styles.css">
   <style id="dyn-signin"></style>
   <meta name="viewport" content="width=device-width, initial-scale=1">
 </head>
 <body>
 <div>
-  <main>
-    <div class="grid-container">
+  <main id="daybook-app">
+    <section class="cards-signed-out grid-container">
       <!-- Card containing the sign-in UI -->
-      <div class="grid-card cards-signed-out">
+      <div class="grid-card">
         <div class="card-content">
           <p>
-            This page is for Daybook users. <a id="btn-sign-in">Sign in with Google</a>.
+            This page is for Daybook users. To create an account, <a v-on:click="signIn">Sign in with Google</a> now.
           </p>
         </div>
       </div>
-
+    </section>
+    <section class="cards-signed-in grid-container">
       <!-- Cards containing the signed-in UI -->
-      <div class="grid-card cards-signed-in card-full-width">
+      <div class="grid-card card-full-width">
         <div class="card-content">
           <h4>
-            Welcome to your Daybook, <span id="user-name" style="font-weight: bold;">Unknown User</span>!
+            Welcome to your Daybook, <span style="font-weight: bold;">{{ userName }}</span>!
           </h4>
           <p>
-            <a id="btn-sign-out">Sign out</a>
+            <a v-on:click="signOut">Sign out</a>
           </p>
         </div>
       </div>
 
-      <div class="grid-card cards-signed-in" id="add-card">
-        <div class="expand-icon-outer" id="btn-add-entry">
+      <div class="grid-card" id="add-card">
+        <div class="expand-icon-outer" v-on:click="">
           <div class="expand-icon-middle">
-            <i class="material-icons expand-icon-inner">add</i>
+            <i class="icon-pencil"></i>
           </div>
         </div>
         <div id="add-entry-inside" class="hidden">
@@ -43,16 +45,16 @@
             <h2>New Entry</h2>
           </div>
           <div class="card-content">
-            <p>Today's Date:</p>
             <textarea id="entry-main">
               What do you have to say about today?
               What did you do?
               Did you meet anyone new?
             </textarea>
+            Today's Date:<input>
             When did you wake up? <input>
             When did you sleep? <input>
           </div>
-          <div class="card-content">
+          <div class="card-content align-right">
             <a id="btn-recalculate">
               Recalculate
             </a>
@@ -60,20 +62,16 @@
         </div>
       </div>
 
-      <div class="grid-card cards-signed-in">
-        <div class="card-content">
-          <h2>December 15, 2018</h2>
-        </div>
-        <div class="card-content">
-          <p>Please check console on server for the final results.</p>
-        </div>
-        <div class="card-content">
-          <a id="btn-recalculate">
-            <i class="material-icons">edit</i>
-          </a>
-        </div>
+      <div class="grid-card" v-for="entry,idx in journalEntries">
+        <component class="card-content card-content-clip"
+          v-bind:is="cardModes[idx]"
+          v-bind:entry="entry"
+          v-bind:idx="idx"
+          v-on:card-mode-change="requestCardModeChange"></component>
       </div>
-    </div>
+
+      <infinite-loading @infinite="infiniteHandler"></infinite-loading>
+    </section>
   </main>
 <!-- Firebase App (the core Firebase SDK) is always required and must be listed first -->
 <script src="https://www.gstatic.com/firebasejs/6.1.0/firebase-app.js"></script>
@@ -84,6 +82,11 @@
 <!-- Vue -->
 <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
 <!-- prod <script src="https://cdn.jsdelivr.net/npm/vue"></script> -->
+
+<!-- Infinite loading -->
+<script src="https://unpkg.com/vue-infinite-loading@^2/dist/vue-infinite-loading.js"></script>
+
+<!-- Custom -->
 <script src="js/scripts.js"></script>
 </body>
 </html>
