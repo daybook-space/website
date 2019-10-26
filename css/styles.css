@@ -4,39 +4,75 @@ html, body {
   background-color: lightgray;
 }
 
-html, body, button {
-  font-family: 'Source Serif Pro', serif !important;
-}
-.mdl-navigation__link {
-  cursor: pointer;
-}
-.mdl-grid {
+.grid-container {
   max-width: 1024px;
   margin: auto;
 }
-.mdl-card {
-  min-height: 0;
-  padding-bottom: 5px;
-/*  width: 100%;*/
+
+.grid-card {
+  font-size: 16px;
+  font-weight: 400;
+  min-height: 200px;
+  width: 330px;
+  display: inline-block;
+
+  background: white;
+  border-radius: 2px;
+  box-sizing: border-box;
+  padding: 16px;
+  box-shadow: 0 2px 2px 0 rgba(0,0,0,.14),0 3px 1px -2px rgba(0,0,0,.2),0 1px 5px 0 rgba(0,0,0,.12);
 }
-.mdl-layout__header-row {
-  padding: 0;
+
+@media (min-width: 840px) {
+  .grid-card {
+    margin: 8px;
+    width: calc(33.3333333333% - 16px);
+  }
 }
+
+@media (max-width: 840px) {
+  .grid-card {
+    margin: 8px;
+    width: calc(50% - 16px);
+  }
+}
+
+@media (max-width: 420px) {
+  .grid-card {
+    margin: 8px;
+    width: calc(100% - 16px);
+  }
+}
+
+.card-content p:first-child {
+  margin: 0;
+}
+
+a {
+  cursor: pointer;
+  text-decoration: underline;
+  color: black;
+}
+
+
+html, body, button {
+  font-family: 'Source Serif Pro', serif !important;
+}
+
 h3 {
   font-family: 'Source Serif Pro', serif;
 }
 h4 {
   margin-top: 0;
 }
-.mdl-card__supporting-text {
-  width: calc(100% - 32px);
-}
+
 .mdl-card__actions {
   text-align: right;
 }
-h1, h2, h4, h5, h6, a, span {
-  font-family: 'Source Serif Pro', serif !important;
+h1, h2, h3, h4, h5, h6 {
+  margin-top: 0;
 }
+
 .expand-icon-outer {
   display: table;
   width: 100%;
@@ -58,25 +94,27 @@ h1, h2, h4, h5, h6, a, span {
   font-size: 4em;
 }
 .card-full-width {
-  width: 100%;
+  width: calc(100% - 16px);
   transition: width 0.5s ease-in-out, height 0.5s ease-in-out;
 }
-.hidden {
-  display: none;
-}
+
+/* hiding/showing code (this doesn't really work that well ) */
 .hiding-1 {
   opacity: 0;
-  transition: opacity 0.5s ease-in-out;
+  transition: width 0.5s ease-in-out, height 0.5s ease-in-out, opacity 0.5s ease-in-out;
 }
+
 .hiding {
   height: 0 !important;
   display: block;
-  transition: width 0.5s ease-in-out, height 0.5s ease-in-out;
-}
-.mdl-card__title {
-  padding-bottom: 0;
+  transition: width 0.5s ease-in-out, height 0.5s ease-in-out, opacity 0.5s ease-in-out;
 }
 
+.hidden {
+  display: none;
+}
+
+/* editing area */
 textarea {
   width: 100%;
   display: block;
@@ -88,3 +126,22 @@ textarea {
   height: 50vh;
   border-radius: 2px;
 }
+
+
+@media (prefers-color-scheme: dark) {
+  html, body {
+    background: black;
+    color: white;
+  }
+
+  a {
+    color: white;
+  }
+
+  .grid-card {
+    background: black;
+    border: 1px solid white;
+    box-shadow: none;
+  }
+}
+

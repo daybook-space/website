@@ -1,4 +1,4 @@
-/* global firebase, Vue, orc */
+/* global firebase, Vue, daybook */
 'use strict';
 
 // Firebase configuration
@@ -55,11 +55,11 @@ this.entryMainText.oninput = function() {
 // Triggered on Firebase auth state change.
 Daybook.prototype.onAuthStateChanged = function(user) {
   if (user) {
-    this.styleContainer.textContent = '.cards-signed-out{ display: none !important; } .cards-signed-in{ display: block !important; }';
+    this.styleContainer.textContent = '.cards-signed-out{ display: none; } .cards-signed-in{ display: block; }';
     this.signedInUser = user;
     this.userNameContainer.textContent = this.signedInUser.displayName;
   } else {
-    this.styleContainer.textContent = '.cards-signed-out{ display: block !important; } .cards-signed-in{ display: none !important; }';
+    this.styleContainer.textContent = '.cards-signed-out{ display: block; } .cards-signed-in{ display: none; }';
   }
 };
 
