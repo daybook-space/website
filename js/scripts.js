@@ -18,7 +18,7 @@ window.isSameDay = function(d1, d2) {
   return d1.getFullYear() === d2.getFullYear() &&
     d1.getMonth() === d2.getMonth() &&
     d1.getDate() === d2.getDate();
-}
+};
 
 window.mapSentiment = function(sentiment) {
   if (sentiment >= 2) {
@@ -110,7 +110,6 @@ function Daybook() {
     this.app = new Vue({
       el: '#daybook-app',
       data: {
-        seen: true,
         journalEntries: [],
         cardModes: [],
         userName: 'Unknown User',
@@ -131,9 +130,11 @@ function Daybook() {
             this.userName = user.displayName;
           } else {
             daybook.styleContainer.textContent = '.cards-signed-out{ display: block; } .cards-signed-in{ display: none; }';
+            // reset the data
             this.journalEntries = [];
             this.cardModes = [];
             this.seenItems++;
+            lastEndDate: new Date();
           }
         },
         requestCardModeChange: function(opts) {
