@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="daybook.space - your personal daybook">
+  <meta name="author" content="">
+  <link href="https://cdn.daybook.space/css/style.css" rel="stylesheet">
+  <style>
+    select, option {
+      font-family: 'Source Serif Pro', serif;
+    }
+    .chartContainer {
+      float: left;
+      margin-bottom: 1em;
+    }
+    #chartContainerSleepHappyByDay {
+      height: 200px !important;
+      width: 400px !important;
+    }
+    #chartContainerHappySadDays {
+      height: 200px !important;
+      width: 200px !important;
+    }
+  </style>
+  <title>my.daybook.space statistics</title>
+</head>
+<body>
+  <main id="daybook-statsapp">
+    <!-- Page Content -->
+    <section>
+      <div class="container">
+        <div class="row">
+          <h1>{{ userName }}, here's how your past
+            <select v-model.number="timeDomain" v-on:change="onTimestampChanged">
+              <option value="1">week</option>
+              <option value="4">month</option>
+              <option value="52">year</option>
+            </select> was:</h1>
+        </div>
+        <div class="row">
+          Best viewed on desktop computers with screen width >600px.
+        </div>
+    </section>
+    <section>
+      <div class="container">
+        <div class="row">
+          <div class="chartContainer" id="chartContainerSleepHappyByDay">
+            <canvas id="chartSleepHappyByDay" width="400" height="200"></canvas>
+          </div>
+          <div class="chartContainer" id="chartContainerHappySadDays">
+            <canvas id="chartHappySadDays" width="20" height="20"></canvas>
+          </div>
+        </div>
+      </div>
+    </section>
+    <section>
+      <div class="container">
+        <div class="row">
+          <h2>Events</h2>
+          
+          <table>
+            <tr>
+              <th colspan="2">Happy</th>
+              <th colspan="2">Sad</th>
+            </tr>
+            <tr v-for="index in 5">
+              <td>{{ events['happy'][index-1]['entity'] }}</td>
+              <td v-html="formatSentiment(events['happy'][index-1]['sentiment'])"></td>
+              <td>{{ events['sad'][index-1]['entity'] }}</td>
+              <td v-html="formatSentiment(events['sad'][index-1]['sentiment'])"></td>
+            </tr>
+          </table>
+        </div>
+      </div>
+    </section>
+    <section>
+      <div class="container">
+        <div class="row">
+          <h2>People</h2>
+          <table>
+            <tr>
+              <th>Happy</th>
+              <th>Sad</th>
+            </tr>
+            <tr v-for="index in 5">
+              <td>{{ people['happy'][index-1]['entity'] }}</td>
+              <td>{{ people['sad'][index-1]['entity'] }}</td>
+            </tr>
+          </table>
+        </div>
+      </div>
+    </section>
+    <section>
+      <div class="container">
+        <div class="row">
+          <h2>Places</h2>
+          <table>
+            <tr>
+              <th>Happy</th>
+              <th>Sad</th>
+            </tr>
+            <tr v-for="index in 5">
+              <td>{{ places['happy'][index-1]['entity'] }}</td>
+              <td>{{ places['sad'][index-1]['entity'] }}</td>
+            </tr>
+          </table>
+        </div>
+      </div>
+    </section>
+    <section>
+      <div class="container">
+        <div class="row">
+          <h2>Others</h2>
+          <table>
+            <tr>
+              <th>Happy</th>
+              <th>Sad</th>
+            </tr>
+            <tr v-for="index in 5">
+              <td>{{ other['happy'][index-1]['entity'] }}</td>
+              <td>{{ other['sad'][index-1]['entity'] }}</td>
+            </tr>
+          </table>
+        </div>
+      </div>
+    </section>
+  </main>
+  <!-- Charts library -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.3/Chart.bundle.min.js"></script>
+
+  <!-- Firebase App (the core Firebase SDK) is always required and must be listed first -->
+  <script src="https://www.gstatic.com/firebasejs/6.1.0/firebase-app.js"></script>
+
+  <!-- Add Firebase products that you want to use -->
+  <script src="https://www.gstatic.com/firebasejs/6.1.0/firebase-auth.js"></script>
+
+  <!-- Vue -->
+  <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+  <!-- prod <script src="https://cdn.jsdelivr.net/npm/vue"></script> -->
+
+  <!-- Custom -->
+  <script src="js/scripts-stats.js"></script>
+</body>
+</html>
