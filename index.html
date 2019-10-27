@@ -53,7 +53,7 @@
           v-bind:key="idx"
           v-on:card-mode-change="requestCardModeChange"></component>
 
-      <infinite-loading @infinite="infiniteHandler"></infinite-loading>
+      <infinite-loading @infinite="infiniteHandler" v-bind:identifier="seenItems"></infinite-loading>
     </section>
   </main>
   <!-- Firebase App (the core Firebase SDK) is always required and must be listed first -->

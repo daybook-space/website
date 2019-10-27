@@ -114,7 +114,8 @@ function Daybook() {
         journalEntries: [],
         cardModes: [],
         userName: 'Unknown User',
-        lastEndDate: new Date()
+        lastEndDate: new Date(),
+        seenItems: 0
       },
       methods: {
         signIn: function() {
@@ -130,6 +131,9 @@ function Daybook() {
             this.userName = user.displayName;
           } else {
             daybook.styleContainer.textContent = '.cards-signed-out{ display: block; } .cards-signed-in{ display: none; }';
+            this.journalEntries = [];
+            this.cardModes = [];
+            this.seenItems++;
           }
         },
         requestCardModeChange: function(opts) {
@@ -156,7 +160,7 @@ function Daybook() {
                 }
                 if (opts.entry.id == 0) {
                   /* new entry id, set it */
-                  opts.entry.id = parseInt(body);
+                  opts.entry.id = parseInt(body, 10);
                 }
                 this.journalEntries[number].content = opts.entry.content;
                 this.journalEntries[number].wakeupTime = opts.entry.wakeupTime;
@@ -195,27 +199,7 @@ function Daybook() {
             /* called before auth is set up, so wait a sec*/
             setTimeout(function() {$state.loaded();}, 1000);
             return;
-          }/*
-          setTimeout(() => {
-            const temp = [];
-            const temp2 = [];
-            for (let i = this.journalEntries.length + 1; i <= this.journalEntries.length + 20; i++) {
-              var sentiment = (Math.random()-0.5)*5;
-              temp.push({
-                content: "bob " + i,
-                date: new Date(Date.now() - i * 1000 * 60 * 60 * 24),
-                sentiment: sentiment,
-                sentimentClass: mapSentiment(sentiment),
-                wakeupTime: '9:39 AM',
-                sleepTime: '10:13 PM',
-                isNew: false
-              });
-              temp2.push('entry-viewer');
-            }
-            this.journalEntries = this.journalEntries.concat(temp);
-            this.cardModes = this.cardModes.concat(temp2);
-            $state.loaded();
-          }, 1000);*/
+          }
 
           const newEndDate = new Date(this.lastEndDate);
           newEndDate.setDate(this.lastEndDate.getDate() - 14);
@@ -235,7 +219,8 @@ function Daybook() {
 
             for (var i = 0; i < body.length; i++) {
               body[i]['sentimentClass'] = mapSentiment(body[i].sentiment);
-              body[i]['date'] = new Date(body[i]['date']);
+              var dateParts = body[i]['date'].split('-');
+              body[i]['date'] = new Date(dateParts[0], dateParts[1] - 1, dateParts[2]);
               this.journalEntries.push(body[i]);
               this.cardModes.push('entry-viewer');
             }

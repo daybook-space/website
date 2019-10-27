@@ -22,6 +22,23 @@
       height: 200px !important;
       width: 200px !important;
     }
+    td {
+      width: 25%;
+      border: 1px solid black;
+      box-sizing: border-box;
+    }
+    th {
+      border: 1px solid black;
+      box-sizing: border-box;
+    }
+    table {
+      width: 100%;
+      border: 1px solid black;
+      box-sizing: border-box;
+    }
+    body {
+      margin-bottom: 1em;
+    }
   </style>
   <title>my.daybook.space statistics</title>
 </head>
@@ -37,9 +54,6 @@
               <option value="4">month</option>
               <option value="52">year</option>
             </select> was:</h1>
-        </div>
-        <div class="row">
-          Best viewed on desktop computers with screen width >600px.
         </div>
     </section>
     <section>
@@ -58,13 +72,16 @@
       <div class="container">
         <div class="row">
           <h2>Events</h2>
-          
+          <p>
+            Events that make you happy and sad.
+            <span v-if="events['happy'].length <= 2">Try writing some more! Our algorithms haven't detected many events that make you happy yet.</span>
+          </p>
           <table>
             <tr>
               <th colspan="2">Happy</th>
               <th colspan="2">Sad</th>
             </tr>
-            <tr v-for="index in 5">
+            <tr v-for="index in Math.min(5, events['happy'].length, events['sad'].length)">
               <td>{{ events['happy'][index-1]['entity'] }}</td>
               <td v-html="formatSentiment(events['happy'][index-1]['sentiment'])"></td>
               <td>{{ events['sad'][index-1]['entity'] }}</td>
@@ -78,14 +95,20 @@
       <div class="container">
         <div class="row">
           <h2>People</h2>
+          <p>
+            Events that make you happy and sad.
+            <span v-if="people['happy'].length <= 2">Try writing some more! Our algorithms haven't detected many people who make you happy yet.</span>
+          </p>
           <table>
             <tr>
-              <th>Happy</th>
-              <th>Sad</th>
+              <th colspan="2">Happy</th>
+              <th colspan="2">Sad</th>
             </tr>
-            <tr v-for="index in 5">
+            <tr v-for="index in Math.min(5, people['happy'].length, people['sad'].length)">
               <td>{{ people['happy'][index-1]['entity'] }}</td>
+              <td v-html="formatSentiment(people['happy'][index-1]['sentiment'])"></td>
               <td>{{ people['sad'][index-1]['entity'] }}</td>
+              <td v-html="formatSentiment(people['sad'][index-1]['sentiment'])"></td>
             </tr>
           </table>
         </div>
@@ -95,14 +118,20 @@
       <div class="container">
         <div class="row">
           <h2>Places</h2>
+          <p>
+            Events that make you happy and sad.
+            <span v-if="places['happy'].length <= 2">Try writing some more! Our algorithms haven't detected many places that make you happy yet.</span>
+          </p>
           <table>
             <tr>
-              <th>Happy</th>
-              <th>Sad</th>
+              <th colspan="2">Happy</th>
+              <th colspan="2">Sad</th>
             </tr>
-            <tr v-for="index in 5">
+            <tr v-for="index in Math.min(5, places['happy'].length, places['sad'].length)">
               <td>{{ places['happy'][index-1]['entity'] }}</td>
+              <td v-html="formatSentiment(places['happy'][index-1]['sentiment'])"></td>
               <td>{{ places['sad'][index-1]['entity'] }}</td>
+              <td v-html="formatSentiment(places['sad'][index-1]['sentiment'])"></td>
             </tr>
           </table>
         </div>
@@ -112,14 +141,20 @@
       <div class="container">
         <div class="row">
           <h2>Others</h2>
+          <p>
+            Events that make you happy and sad.
+            <span v-if="other['happy'].length <= 2">Try writing some more! Our algorithms haven't detected many things that make you happy yet.</span>
+          </p>
           <table>
             <tr>
-              <th>Happy</th>
-              <th>Sad</th>
+              <th colspan="2">Happy</th>
+              <th colspan="2">Sad</th>
             </tr>
-            <tr v-for="index in 5">
+            <tr v-for="index in Math.min(5, other['happy'].length, other['sad'].length)">
               <td>{{ other['happy'][index-1]['entity'] }}</td>
+              <td v-html="formatSentiment(other['happy'][index-1]['sentiment'])"></td>
               <td>{{ other['sad'][index-1]['entity'] }}</td>
+              <td v-html="formatSentiment(other['sad'][index-1]['sentiment'])"></td>
             </tr>
           </table>
         </div>
