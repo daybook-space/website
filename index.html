@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <title>my.daybook.space</title>
-  <link rel="stylesheet" href="https://cdn.daybook.space/fonts/css/fontello.css">
+  <link rel="stylesheet" href="https://cdn.daybook.space/fonts/css/daybook.css">
   <link rel="stylesheet" href="css/styles.css">
   <style id="dyn-signin"></style>
   <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -15,7 +15,7 @@
       <!-- Card containing the sign-in UI -->
       <div class="grid-card">
         <div class="card-content">
-          <p>
+          <p style="white-space: normal">
             This page is for Daybook users. To create an account, <a v-on:click="signIn">Sign in with Google</a> now.
           </p>
         </div>
@@ -25,69 +25,53 @@
       <!-- Cards containing the signed-in UI -->
       <div class="grid-card card-full-width">
         <div class="card-content">
-          <h4>
+          <h3>
             Welcome to your Daybook, <span style="font-weight: bold;">{{ userName }}</span>!
-          </h4>
+          </h3>
           <p>
             <a v-on:click="signOut">Sign out</a>
+          </p>
+          <p>
+            <a href="stats.html">View statistics</a>
           </p>
         </div>
       </div>
 
       <div class="grid-card" id="add-card">
-        <div class="expand-icon-outer" v-on:click="">
+        <div class="expand-icon-outer" v-on:click="addNewCard">
           <div class="expand-icon-middle">
             <i class="icon-pencil"></i>
           </div>
         </div>
-        <div id="add-entry-inside" class="hidden">
-          <div class="card-content">
-            <h2>New Entry</h2>
-          </div>
-          <div class="card-content">
-            <textarea id="entry-main">
-              What do you have to say about today?
-              What did you do?
-              Did you meet anyone new?
-            </textarea>
-            Today's Date:<input>
-            When did you wake up? <input>
-            When did you sleep? <input>
-          </div>
-          <div class="card-content align-right">
-            <a id="btn-recalculate">
-              Recalculate
-            </a>
-          </div>
-        </div>
       </div>
 
-      <div class="grid-card" v-for="entry,idx in journalEntries">
-        <component class="card-content card-content-clip"
+      <component
+          v-for="(entry,idx) in journalEntries"
           v-bind:is="cardModes[idx]"
-          v-bind:entry="entry"
+          v-bind:entry-init="entry"
           v-bind:idx="idx"
+          v-bind:key="idx"
           v-on:card-mode-change="requestCardModeChange"></component>
-      </div>
 
-      <infinite-loading @infinite="infiniteHandler"></infinite-loading>
+      <infinite-loading @infinite="infiniteHandler" v-bind:identifier="seenItems"></infinite-loading>
     </section>
   </main>
-<!-- Firebase App (the core Firebase SDK) is always required and must be listed first -->
-<script src="https://www.gstatic.com/firebasejs/6.1.0/firebase-app.js"></script>
+  <!-- Firebase App (the core Firebase SDK) is always required and must be listed first -->
+  <script src="https://www.gstatic.com/firebasejs/6.1.0/firebase-app.js"></script>
 
-<!-- Add Firebase products that you want to use -->
-<script src="https://www.gstatic.com/firebasejs/6.1.0/firebase-auth.js"></script>
+  <!-- Add Firebase products that you want to use -->
+  <script src="https://www.gstatic.com/firebasejs/6.1.0/firebase-auth.js"></script>
 
-<!-- Vue -->
-<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
-<!-- prod <script src="https://cdn.jsdelivr.net/npm/vue"></script> -->
+  <!-- Vue -->
+  <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+  <!-- prod <script src="https://cdn.jsdelivr.net/npm/vue"></script> -->
 
-<!-- Infinite loading -->
-<script src="https://unpkg.com/vue-infinite-loading@^2/dist/vue-infinite-loading.js"></script>
+  <!-- Infinite loading -->
+  <script src="https://unpkg.com/vue-infinite-loading@^2/dist/vue-infinite-loading.js"></script>
 
-<!-- Custom -->
-<script src="js/scripts.js"></script>
+  <!-- Custom -->
+  <script src="js/scripts.js"></script>
+</div>
 </body>
 </html>
 

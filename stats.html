@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="daybook.space - your personal daybook">
+  <meta name="author" content="">
+  <link href="https://cdn.daybook.space/css/style.css" rel="stylesheet">
+  <style>
+    select, option {
+      font-family: 'Source Serif Pro', serif;
+    }
+    .chartContainer {
+      float: left;
+      margin-bottom: 1em;
+    }
+    #chartContainerSleepHappyByDay {
+      height: 200px !important;
+      width: 400px !important;
+    }
+    #chartContainerHappySadDays {
+      height: 200px !important;
+      width: 200px !important;
+    }
+    td {
+      width: 25%;
+      border: 1px solid black;
+      box-sizing: border-box;
+    }
+    th {
+      border: 1px solid black;
+      box-sizing: border-box;
+    }
+    table {
+      width: 100%;
+      border: 1px solid black;
+      box-sizing: border-box;
+    }
+    body {
+      margin-bottom: 1em;
+    }
+  </style>
+  <title>my.daybook.space statistics</title>
+</head>
+<body>
+  <main id="daybook-statsapp">
+    <!-- Page Content -->
+    <section>
+      <div class="container">
+        <div class="row">
+          <h1>{{ userName }}, here's how your past
+            <select v-model.number="timeDomain" v-on:change="onTimestampChanged">
+              <option value="1">week</option>
+              <option value="4">month</option>
+              <option value="52">year</option>
+            </select> was:</h1>
+        </div>
+    </section>
+    <section>
+      <div class="container">
+        <div class="row">
+          <div class="chartContainer" id="chartContainerSleepHappyByDay">
+            <canvas id="chartSleepHappyByDay" width="400" height="200"></canvas>
+          </div>
+          <div class="chartContainer" id="chartContainerHappySadDays">
+            <canvas id="chartHappySadDays" width="20" height="20"></canvas>
+          </div>
+        </div>
+      </div>
+    </section>
+    <section>
+      <div class="container">
+        <div class="row">
+          <h2>Events</h2>
+          <p>
+            Events that make you happy and sad.
+            <span v-if="events['happy'].length <= 2">Try writing some more! Our algorithms haven't detected many events that make you happy yet.</span>
+          </p>
+          <table>
+            <tr>
+              <th colspan="2">Happy</th>
+              <th colspan="2">Sad</th>
+            </tr>
+            <tr v-for="index in Math.min(5, events['happy'].length, events['sad'].length)">
+              <td>{{ events['happy'][index-1]['entity'] }}</td>
+              <td v-html="formatSentiment(events['happy'][index-1]['sentiment'])"></td>
+              <td>{{ events['sad'][index-1]['entity'] }}</td>
+              <td v-html="formatSentiment(events['sad'][index-1]['sentiment'])"></td>
+            </tr>
+          </table>
+        </div>
+      </div>
+    </section>
+    <section>
+      <div class="container">
+        <div class="row">
+          <h2>People</h2>
+          <p>
+            Events that make you happy and sad.
+            <span v-if="people['happy'].length <= 2">Try writing some more! Our algorithms haven't detected many people who make you happy yet.</span>
+          </p>
+          <table>
+            <tr>
+              <th colspan="2">Happy</th>
+              <th colspan="2">Sad</th>
+            </tr>
+            <tr v-for="index in Math.min(5, people['happy'].length, people['sad'].length)">
+              <td>{{ people['happy'][index-1]['entity'] }}</td>
+              <td v-html="formatSentiment(people['happy'][index-1]['sentiment'])"></td>
+              <td>{{ people['sad'][index-1]['entity'] }}</td>
+              <td v-html="formatSentiment(people['sad'][index-1]['sentiment'])"></td>
+            </tr>
+          </table>
+        </div>
+      </div>
+    </section>
+    <section>
+      <div class="container">
+        <div class="row">
+          <h2>Places</h2>
+          <p>
+            Events that make you happy and sad.
+            <span v-if="places['happy'].length <= 2">Try writing some more! Our algorithms haven't detected many places that make you happy yet.</span>
+          </p>
+          <table>
+            <tr>
+              <th colspan="2">Happy</th>
+              <th colspan="2">Sad</th>
+            </tr>
+            <tr v-for="index in Math.min(5, places['happy'].length, places['sad'].length)">
+              <td>{{ places['happy'][index-1]['entity'] }}</td>
+              <td v-html="formatSentiment(places['happy'][index-1]['sentiment'])"></td>
+              <td>{{ places['sad'][index-1]['entity'] }}</td>
+              <td v-html="formatSentiment(places['sad'][index-1]['sentiment'])"></td>
+            </tr>
+          </table>
+        </div>
+      </div>
+    </section>
+    <section>
+      <div class="container">
+        <div class="row">
+          <h2>Others</h2>
+          <p>
+            Events that make you happy and sad.
+            <span v-if="other['happy'].length <= 2">Try writing some more! Our algorithms haven't detected many things that make you happy yet.</span>
+          </p>
+          <table>
+            <tr>
+              <th colspan="2">Happy</th>
+              <th colspan="2">Sad</th>
+            </tr>
+            <tr v-for="index in Math.min(5, other['happy'].length, other['sad'].length)">
+              <td>{{ other['happy'][index-1]['entity'] }}</td>
+              <td v-html="formatSentiment(other['happy'][index-1]['sentiment'])"></td>
+              <td>{{ other['sad'][index-1]['entity'] }}</td>
+              <td v-html="formatSentiment(other['sad'][index-1]['sentiment'])"></td>
+            </tr>
+          </table>
+        </div>
+      </div>
+    </section>
+  </main>
+  <!-- Charts library -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.3/Chart.bundle.min.js"></script>
+
+  <!-- Firebase App (the core Firebase SDK) is always required and must be listed first -->
+  <script src="https://www.gstatic.com/firebasejs/6.1.0/firebase-app.js"></script>
+
+  <!-- Add Firebase products that you want to use -->
+  <script src="https://www.gstatic.com/firebasejs/6.1.0/firebase-auth.js"></script>
+
+  <!-- Vue -->
+  <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+  <!-- prod <script src="https://cdn.jsdelivr.net/npm/vue"></script> -->
+
+  <!-- Custom -->
+  <script src="js/scripts-stats.js"></script>
+</body>
+</html>
